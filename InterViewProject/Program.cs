@@ -13,7 +13,10 @@
     // Add services to the container.
     builder.Services.AddControllersWithViews();
     builder.Host.UseSerilog();
+    // 注入IProductListRepository介面，實作類別為ProductListRepositoryService
     builder.Services.AddScoped<IProductListRepository, ProductListRepositoryService>();
+    // 注入IProductRepository介面，實作類別為ProductRepositoryService
+    builder.Services.AddScoped<IProductRepository, ProductRepositoryService>();
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.

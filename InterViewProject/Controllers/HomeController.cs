@@ -7,10 +7,12 @@ namespace InterViewProject.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProductListRepository _productListRepository;
-        public HomeController(ILogger<HomeController> logger, IProductListRepository productListRepository)
+        private readonly IProductRepository _productRepository;
+        public HomeController(ILogger<HomeController> logger, IProductListRepository productListRepository,IProductRepository productRepository)
         {
             _logger = logger;
             _productListRepository = productListRepository;
+            _productRepository = productRepository;
         }
 
         public IActionResult Index()
@@ -25,6 +27,12 @@ namespace InterViewProject.Controllers
             return View(products);
         }
 
+        public async Task<IActionResult> Details(int productid)
+        {
+            ProductViewModel product = await _productRepository.GetProduct(productid);
+
+            return View(product);
+        }
         public IActionResult Privacy()
         {
             return View();
