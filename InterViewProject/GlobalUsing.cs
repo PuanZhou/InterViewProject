@@ -8,3 +8,4 @@ global using Microsoft.AspNetCore.Mvc.Rendering;
 global using System.ComponentModel.DataAnnotations;
 global using InterViewProject.Mapping;
 global using InterViewProject.Authorization;
+global using InterViewProject.Service.IRepository;

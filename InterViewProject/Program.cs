@@ -7,8 +7,6 @@
     Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration) // 從appsettings.json 讀取Logger設定
     .CreateLogger();
-    //啟用Razor Pages
-    builder.Services.AddRazorPages();
     // 註冊DbContext，並設定使用SQL Server資料庫
     builder.Services.AddDbContext<CoffeeContext>(
    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -19,8 +17,12 @@
     builder.Services.AddScoped<IProductListRepository, ProductListRepositoryService>();
     // 注入IProductRepository介面，實作類別為ProductRepositoryService
     builder.Services.AddScoped<IProductRepository, ProductRepositoryService>();
+    // 注入IAuthorizationRepository介面，實作類別為AuthorizationRepositoryService
+    builder.Services.AddScoped<IAuthorizationRepository, AuthorizationRepositoryService>();
     // 注入ProductExistsResourceFilter
     builder.Services.AddScoped<ProductExistsResourceFilter>();
+    //啟用Razor Pages
+    builder.Services.AddRazorPages();
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -33,12 +35,13 @@
 
     app.UseHttpsRedirection();
     app.UseStaticFiles();
-    //開啟Razor Pages
-    app.MapRazorPages();
+
     app.UseRouting();
 
     app.UseAuthorization();
 
+    //開啟Razor Pages
+    app.MapRazorPages();
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");

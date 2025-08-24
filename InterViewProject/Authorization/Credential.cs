@@ -4,7 +4,7 @@
     {
         [Required]
         [Display(Name = "User Name")]
-        public string UserName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
         [Required]
         [DataType(DataType.Password)]

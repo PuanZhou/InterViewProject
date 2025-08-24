@@ -1,20 +1,21 @@
 ﻿@page
+@model InterViewProject.Pages.Account.LoginModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 <div class="container border" style="padding:20px">
     <form method="post">
-        <div class="text-danger" asp-validation-summary="All">
+        <div class="text-danger" asp-validation-summary="All"></div>
 
-        </div>
         <div class="mb-3 row">
             <div class="col-2"></div>
-            <label asp-for="Credential.UserName">使用者Email</label>
+            <label asp-for="Credential.Email">使用者Email</label>
             <div class="col-5">
-                <input asp-for="Credential.UserName" class="form-control" />
-                <span asp-validation-for="Credential.UserName" class="text-danger"></span>
+                <input asp-for="Credential.Email" class="form-control" />
+                <span asp-validation-for="Credential.Email" class="text-danger"></span>
             </div>
         </div>
+
         <div class="mb-3 row">
             <div class="col-2"></div>
             <label asp-for="Credential.Password">使用者密碼</label>
@@ -23,11 +24,11 @@
                 <span asp-validation-for="Credential.Password" class="text-danger"></span>
             </div>
         </div>
+
         <div class="mb-3 row">
             <div class="col-2"></div>
-                <input type="submit" class="btn btn-primary" value="Login" />
-            <div class="col-5">
-            </div>
+            <input type="submit" class="btn btn-primary" value="Login" />
+            <div class="col-5"></div>
         </div>
     </form>
 </div>
