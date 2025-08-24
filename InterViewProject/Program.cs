@@ -7,12 +7,13 @@
     Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration) // 從appsettings.json 讀取Logger設定
     .CreateLogger();
-    // 註冊DbContext，並設定使用SQL Server資料庫 
+    // 註冊DbContext，並設定使用SQL Server資料庫
     builder.Services.AddDbContext<CoffeeContext>(
    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
     // Add services to the container.
     builder.Services.AddControllersWithViews();
     builder.Host.UseSerilog();
+    builder.Services.AddScoped<IProductListRepository, ProductListRepositoryService>();
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.

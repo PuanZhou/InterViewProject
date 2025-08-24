@@ -22,4 +22,8 @@ public partial class ProductListView
     public decimal? Price { get; set; }
 
     public bool TakeDown { get; set; }
+
+    public string MainPhotoPath { get; set; }
+
+    public int ProductId { get; set; }
 }

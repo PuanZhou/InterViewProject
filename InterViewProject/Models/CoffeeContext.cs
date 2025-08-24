@@ -187,6 +187,7 @@ public partial class CoffeeContext : DbContext
             entity.Property(e => e.CountryName).HasMaxLength(50);
             entity.Property(e => e.Price).HasColumnType("money");
             entity.Property(e => e.ProcessName).HasMaxLength(50);
+            entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.ProductName)
                 .IsRequired()
                 .HasMaxLength(50);

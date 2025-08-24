@@ -1,8 +1,43 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "首頁";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@model IQueryable<ProductListView>
+<div class="row pb-3">
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-3 col-md-6">
+            <div class="row p-2">
+                <div class="col-12 p-1" style="border:1px solid #87CEFA;border-radius:5px;">
+                    <div class="card">
+                        <img src="@product.MainPhotoPath" height="300vh" class="card-img-top rounded" />
+                        <div class="card-body">
+                            <div class="pl-1">
+                                <p class="card-title h5 text-primary"> 商品名稱:@product.ProductName</p>
+                                <p class="card-title text-info">產地: <b>@product.CountryName</b></p>
+                                <p class="card-title text-info">分類: <b>@product.CategoriesName</b></p>
+                                @if (product.ProcessName is not null)
+                                {
+                                    <p class="card-title text-info">處理法: <b>@product.ProcessName</b></p>
+                                }
+                            </div>
+                            <div class="pl-1">
+                                <p>價錢:<b> NT @product.Price?.ToString("0")</b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <a asp-action="Details" class="btn btn-primary form-control" asp-route-productid="@product.ProductId">
+                            Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+
+<br />
+<br />
+<br />
+<br />
