@@ -1,5 +1,3 @@
-using Serilog;
-
 try
 {
     Log.Information("Starting web host");
