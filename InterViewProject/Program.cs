@@ -1,12 +1,15 @@
-try
+﻿try
 {
     Log.Information("Starting web host");
 
     var builder = WebApplication.CreateBuilder(args);
    
     Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration) // �qappsettings.json Ū��Logger�]�w
+    .ReadFrom.Configuration(builder.Configuration) // 從appsettings.json 讀取Logger設定
     .CreateLogger();
+    // 註冊DbContext，並設定使用SQL Server資料庫 
+    builder.Services.AddDbContext<CoffeeContext>(
+   options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
     // Add services to the container.
     builder.Services.AddControllersWithViews();
     builder.Host.UseSerilog();
