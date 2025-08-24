@@ -31,6 +31,7 @@ namespace Web_API.Controllers
                                 {
                                     new Claim(ClaimTypes.Name, "admin"),
                                     new Claim(ClaimTypes.Email, "admin@web.com"),
+                                    new Claim(ClaimTypes.Role, "Admin"),
                                     new Claim("Admin","true"),
                                     new Claim("Department", "HR"),
                                     new Claim("Manager", "true"),
