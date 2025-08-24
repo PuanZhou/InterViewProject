@@ -7,3 +7,4 @@ global using InterViewProject.Models.ViewModel;
 global using Microsoft.AspNetCore.Mvc.Rendering;
 global using System.ComponentModel.DataAnnotations;
 global using InterViewProject.Mapping;
+global using InterViewProject.Authorization;

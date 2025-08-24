@@ -1,0 +1,40 @@
+﻿@page
+@{
+}
+
+<div class="container border" style="padding:20px">
+    <form method="post">
+        <div class="text-danger" asp-validation-summary="All">
+
+        </div>
+        <div class="mb-3 row">
+            <div class="col-2"></div>
+            <label asp-for="Credential.UserName"></label>
+            <div class="col-5">
+                <input asp-for="Credential.UserName" class="form-control" />
+                <span asp-validation-for="Credential.UserName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-2"></div>
+            <label asp-for="Credential.Password"></label>
+            <div class="col-5">
+                <input type="password" asp-for="Credential.Password" class="form-control" />
+                <span asp-validation-for="Credential.Password" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="mb-3 row form-check">
+            <div class="col-2"></div>
+            <div class="col-5">
+                <input type="checkbox" class="form-check-input" asp-for="Credential.RememberMe" />
+                <label class="form-check-label" asp-for="Credential.RememberMe"></label>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-2"></div>
+                <input type="submit" class="btn btn-primary" value="Login" />
+            <div class="col-5">
+            </div>
+        </div>
+    </form>
+</div>

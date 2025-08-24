@@ -7,6 +7,8 @@
     Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration) // 從appsettings.json 讀取Logger設定
     .CreateLogger();
+    //啟用Razor Pages
+    builder.Services.AddRazorPages();
     // 註冊DbContext，並設定使用SQL Server資料庫
     builder.Services.AddDbContext<CoffeeContext>(
    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -31,7 +33,8 @@
 
     app.UseHttpsRedirection();
     app.UseStaticFiles();
-
+    //開啟Razor Pages
+    app.MapRazorPages();
     app.UseRouting();
 
     app.UseAuthorization();
