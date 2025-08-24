@@ -4,3 +4,6 @@ global using InterViewProject.Models;
 global using InterViewProject.Serverice.IRepository;
 global using InterViewProject.Serverice;
 global using InterViewProject.Models.ViewModel;
+global using Microsoft.AspNetCore.Mvc.Rendering;
+global using System.ComponentModel.DataAnnotations;
+global using InterViewProject.Mapping;

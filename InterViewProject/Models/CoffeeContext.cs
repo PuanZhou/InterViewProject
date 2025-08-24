@@ -23,15 +23,13 @@ public partial class CoffeeContext : DbContext
 
     public virtual DbSet<Country> Countries { get; set; }
 
-    public virtual DbSet<Package> Packages { get; set; }
-
-    public virtual DbSet<Photo> Photos { get; set; }
-
     public virtual DbSet<Process> Processes { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<ProductListView> ProductListViews { get; set; }
+
+    public virtual DbSet<Roasting> Roastings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -75,7 +73,6 @@ public partial class CoffeeContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50);
             entity.Property(e => e.CountryId).HasColumnName("CountryID");
-            entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.ProcessId).HasColumnName("ProcessID");
             entity.Property(e => e.RoastingId).HasColumnName("RoastingID");
 
@@ -83,11 +80,6 @@ public partial class CoffeeContext : DbContext
                 .HasForeignKey(d => d.CountryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Coffee_Country");
-
-            entity.HasOne(d => d.Package).WithMany(p => p.Coffees)
-                .HasForeignKey(d => d.PackageId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Coffee_Package");
 
             entity.HasOne(d => d.Process).WithMany(p => p.Coffees)
                 .HasForeignKey(d => d.ProcessId)
@@ -98,6 +90,11 @@ public partial class CoffeeContext : DbContext
                 .HasForeignKey<Coffee>(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Coffee_Products1");
+
+            entity.HasOne(d => d.Roasting).WithMany(p => p.Coffees)
+                .HasForeignKey(d => d.RoastingId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Coffee_Roasting1");
         });
 
         modelBuilder.Entity<Continent>(entity =>
@@ -124,26 +121,6 @@ public partial class CoffeeContext : DbContext
                 .HasForeignKey(d => d.ContinentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Country_Continent1");
-        });
-
-        modelBuilder.Entity<Package>(entity =>
-        {
-            entity.ToTable("Package");
-
-            entity.Property(e => e.PackageId).HasColumnName("PackageID");
-            entity.Property(e => e.PackageName)
-                .IsRequired()
-                .HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<Photo>(entity =>
-        {
-            entity.Property(e => e.PhotoId).HasColumnName("PhotoID");
-            entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.Photos)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_Photos_Products");
         });
 
         modelBuilder.Entity<Process>(entity =>
@@ -192,6 +169,16 @@ public partial class CoffeeContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50);
             entity.Property(e => e.RoastingName).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Roasting>(entity =>
+        {
+            entity.ToTable("Roasting");
+
+            entity.Property(e => e.RoastingId).HasColumnName("RoastingID");
+            entity.Property(e => e.RoastingName)
+                .IsRequired()
+                .HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,4 +1,7 @@
-﻿@model ProductViewModel
+﻿@{
+    ViewData["Title"] = "商品詳細資訊";
+}
+@model ProductViewModel
 
 <div class="card  container pt-4">
     <div class="card-header bg-dark text-light ml-0  row ">
@@ -19,6 +22,12 @@
                     <div class="row pl-2">
                         <h5 class="text-muted">區域: @Model.ContinentName</h5>
                     </div>
+                    @if (Model.RoastingName is not null)
+                    {
+                        <div class="row pl-2">
+                            <h5 class="text-muted">烘培度: @Model.RoastingName</h5>
+                        </div>
+                    }
                     <div class="row pl-2">
                         <p class="text-secondary">商品描述:@Html.Raw(Model.Description)</p>
                     </div>

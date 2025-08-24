@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace InterViewProject.Models;
 
-public partial class Package
+public partial class Roasting
 {
-    public int PackageId { get; set; }
+    public int RoastingId { get; set; }
 
-    public string PackageName { get; set; }
+    public string RoastingName { get; set; }
 
     public virtual ICollection<Coffee> Coffees { get; set; } = new List<Coffee>();
 }

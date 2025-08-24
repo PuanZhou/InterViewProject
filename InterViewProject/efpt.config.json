@@ -36,19 +36,15 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Package]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Photos]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Process]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[Products]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Roasting]",
          "ObjectType": 0
       },
       {

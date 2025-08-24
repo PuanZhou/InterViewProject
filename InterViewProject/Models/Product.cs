@@ -34,6 +34,4 @@ public partial class Product
     public virtual Coffee Coffee { get; set; }
 
     public virtual Country Country { get; set; }
-
-    public virtual ICollection<Photo> Photos { get; set; } = new List<Photo>();
 }
