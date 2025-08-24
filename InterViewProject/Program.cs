@@ -17,6 +17,8 @@
     builder.Services.AddScoped<IProductListRepository, ProductListRepositoryService>();
     // 注入IProductRepository介面，實作類別為ProductRepositoryService
     builder.Services.AddScoped<IProductRepository, ProductRepositoryService>();
+    // 注入ProductExistsResourceFilter
+    builder.Services.AddScoped<ProductExistsResourceFilter>();
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.

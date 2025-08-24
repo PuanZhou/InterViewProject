@@ -27,10 +27,10 @@ namespace InterViewProject.Controllers
             return View(products);
         }
 
+        [ServiceFilter(typeof(ProductExistsResourceFilter))]
         public async Task<IActionResult> Details(int productid)
         {
             ProductViewModel product = await _productRepository.GetProduct(productid);
-
             return View(product);
         }
         public IActionResult Privacy()

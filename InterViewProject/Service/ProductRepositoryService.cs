@@ -20,7 +20,7 @@ namespace InterViewProject.Serverice
             if (target == null || target.TakeDown == true)
             {
                 _logger.LogError("Product with ID {ProductId} not found or has been taken down.", productid);
-                throw new KeyNotFoundException($"Product with ID {productid} not found or has been taken down.");
+                throw new InvalidOperationException($"Product with ID {productid} not found or has been taken down.");
             }
 
             return new ProductViewModel
