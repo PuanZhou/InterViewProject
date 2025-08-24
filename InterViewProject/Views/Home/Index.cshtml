@@ -3,9 +3,12 @@
 }
 
 @model IEnumerable<ProductListView>
-<a asp-controller="Product" asp-action="Index" class="btn btn-secondary form-control">
-    增加新商品
-</a>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-controller="Product" asp-action="Index" class="btn btn-secondary form-control">
+        增加新商品
+    </a>
+}
 <h2 class="text-center text-primary">商品列表</h2>
 <div class="row pb-3">
     @foreach (var product in Model)
