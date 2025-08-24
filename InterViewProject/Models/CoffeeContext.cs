@@ -31,6 +31,8 @@ public partial class CoffeeContext : DbContext
 
     public virtual DbSet<Product> Products { get; set; }
 
+    public virtual DbSet<ProductListView> ProductListViews { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Admin>(entity =>
@@ -172,6 +174,23 @@ public partial class CoffeeContext : DbContext
             entity.HasOne(d => d.Country).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CountryId)
                 .HasConstraintName("FK_Products_Country");
+        });
+
+        modelBuilder.Entity<ProductListView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("ProductListView");
+
+            entity.Property(e => e.CategoriesName).HasMaxLength(50);
+            entity.Property(e => e.ContinentName).HasMaxLength(50);
+            entity.Property(e => e.CountryName).HasMaxLength(50);
+            entity.Property(e => e.Price).HasColumnType("money");
+            entity.Property(e => e.ProcessName).HasMaxLength(50);
+            entity.Property(e => e.ProductName)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.RoastingName).HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

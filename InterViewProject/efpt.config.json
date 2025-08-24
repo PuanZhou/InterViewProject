@@ -50,6 +50,10 @@
       {
          "Name": "[dbo].[Products]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProductListView]",
+         "ObjectType": 3
       }
    ],
    "UiHint": null,
