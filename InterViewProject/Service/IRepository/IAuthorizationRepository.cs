@@ -3,5 +3,6 @@
     public interface IAuthorizationRepository
     {
         Task<bool> CheckAccount(Credential credential);
+        Task LogOut();
     }
 }
