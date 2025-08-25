@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "編輯頁面";
+}
+@model IEnumerable<EditProductListViewModel>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>產品名稱</th> 
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductName</td>
+                <td>
+                    <a asp-action="Edit" asp-route-productid="@product.ProductId" class="btn btn-primary">修改</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

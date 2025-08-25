@@ -1,4 +1,6 @@
-﻿namespace InterViewProject.Serverice
+﻿
+
+namespace InterViewProject.Serverice
 {
     public class ProductRepositoryService : IProductRepository
     {
@@ -15,11 +17,6 @@
         public async Task<ProductViewModel> GetProduct(int productid)
         {
             var target = await _dbContext.ProductListViews.FirstOrDefaultAsync(product => product.ProductId == productid);
-            if (target == null || target.TakeDown == true)
-            {
-                _logger.LogError("Product with ID {ProductId} not found or has been taken down.", productid);
-                throw new InvalidOperationException($"Product with ID {productid} not found or has been taken down.");
-            }
 
             return new ProductViewModel
             {
@@ -35,7 +32,7 @@
             };
         }
 
-        public async Task<ProductUpSertModel> GetUpsertModel()
+        public async Task<ProductUpSertModel> GetUpsertModel(int? productId)
         {
             ProductUpSertModel ProductUpSertModel = new ProductUpSertModel()
             {
@@ -62,6 +59,25 @@
                 })
             };
 
+            if (productId.HasValue)
+            {
+                var productid = productId.Value;
+                var target = await _dbContext.Products.FirstOrDefaultAsync(x=>x.ProductId == productid);
+                if (target is null)
+                {
+                    _logger.LogError("找不到產品 ID 為 '{ProductID}' 的產品", productId);
+                    throw new IndexOutOfRangeException();
+                }
+                ProductUpSertModel.productInsertModel.ProductID = target.ProductId;
+                ProductUpSertModel.productInsertModel.ProductName = target.ProductName;
+                ProductUpSertModel.productInsertModel.CountryID = target.CountryId.Value;
+                ProductUpSertModel.productInsertModel.Stock = target.Stock.Value;
+                ProductUpSertModel.productInsertModel.CategoriesID = target.CategoryId;
+                ProductUpSertModel.productInsertModel.Price = target.Price.Value;
+                ProductUpSertModel.productInsertModel.MainPhotoPath = target.MainPhotoPath;
+                ProductUpSertModel.productInsertModel.Description = target.Description;
+                ProductUpSertModel.productInsertModel.TakeDown = target.TakeDown;
+            }
             return await Task.FromResult(ProductUpSertModel);
         }
 
@@ -86,7 +102,7 @@
                     product.MainPhotoPath = @"\images\products\" + fileName + extension;
                 }
 
-               
+
                 Product newProduct = new Product()
                 {
                     ProductName = product.ProductName,
@@ -119,7 +135,80 @@
             catch (Exception ex)
             {
                 _logger.LogError(ex, "插入產品 '{ProductName}' 時發生錯誤", product.ProductName);
-                return false; 
+                return false;
+            }
+        }
+
+        public async Task<List<EditProductListViewModel>> GetEditProducts()
+        {
+            return await _dbContext.ProductListViews.AsNoTracking().Select(product => new EditProductListViewModel
+            {
+                ProductId = product.ProductId,
+                ProductName = product.ProductName,
+            }).ToListAsync();
+        }
+
+        public async Task<bool> EditProduct(ProductInsertModel product, IFormFile? file)
+        {
+            try
+            {
+                var targetproduct = await _dbContext.Products.FindAsync(product.ProductID);
+
+                if (targetproduct is null)
+                {
+                    _logger.LogError("找不到產品 ID 為 '{ProductID}' 的產品", product.ProductID);
+                    throw new IndexOutOfRangeException();
+                }
+
+                if (file != null)
+                {
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRootPath, @"images\products");
+                    var extension = Path.GetExtension(file.FileName);
+
+                    // 確保目錄存在
+                    Directory.CreateDirectory(uploads);
+                    if (product.MainPhotoPath != null)
+                    {
+                        var oldImagePath = Path.Combine(wwwRootPath, targetproduct.MainPhotoPath.TrimStart('\\'));
+                        if (File.Exists(oldImagePath))
+                        {
+                            File.Delete(oldImagePath);
+                        }
+                    }
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStreams);
+                    }
+                    product.MainPhotoPath = @"\images\products\" + fileName + extension;
+                }
+
+
+                targetproduct.ProductName = product.ProductName;
+                targetproduct.CountryId = product.CountryID;
+                targetproduct.Stock = product.Stock;
+                targetproduct.CategoryId = product.CategoriesID;
+                targetproduct.Price = product.Price;
+                targetproduct.MainPhotoPath = product.MainPhotoPath;
+                targetproduct.Description = product.Description;
+                targetproduct.TakeDown = product.TakeDown;
+
+                if ((CategoryName)product.CategoriesID == CategoryName.咖啡)
+                {
+                    targetproduct.Coffee.CoffeeName = product.ProductName;
+                    targetproduct.Coffee.CountryId = product.CountryID;
+                    targetproduct.Coffee.ProcessId = product.ProcessID;
+                    targetproduct.Coffee.RoastingId = product.RoastingID;
+                }
+                var result = await _dbContext.SaveChangesAsync();
+
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "插入產品 '{ProductName}' 時發生錯誤", product.ProductName);
+                return false;
             }
         }
     }

@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "修改商品";
+}
+@model ProductUpSertModel
+
+<form method="post" asp-action="Insert" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-4 row">
+                <div asp-validation-summary="All"></div>
+                <div class="mb-3">
+                    <label asp-for="productInsertModel.ProductName"></label>
+                    <input asp-for="productInsertModel.ProductName" class="form-control" />
+                    <span asp-validation-for="productInsertModel.ProductName" class="text-danger"></span> @*增加 Server side Validations訊息*@
+                </div>
+                <div class="mb-3">
+                    <label asp-for="productInsertModel.Description"></label>
+                    <textarea asp-for="productInsertModel.Description" rows="3" class="form-control"></textarea>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="productInsertModel.Price">價格</label>
+                    <input asp-for="productInsertModel.Price" class="form-control" />
+                    <span asp-validation-for="productInsertModel.Price" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="productInsertModel.Stock">庫存</label>
+                    <input asp-for="productInsertModel.Stock" class="form-control" />
+                    <span asp-validation-for="productInsertModel.Stock" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="productInsertModel.MainPhotoPath"></label>
+                    <input type="file" id="uploadBox" name="file" class="form-control" />
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="productInsertModel.CategoriesID">類別</label>
+                    <select asp-for="productInsertModel.CategoriesID" asp-items="@Model.CategoriesList" class="form-select">
+                        <option disabled selected>--選擇商品類別--</option> @*//取得所有分類填入下拉選單*@
+                    </select>
+                    <span asp-validation-for="productInsertModel.CategoriesID" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="productInsertModel.CountryID">國家</label>
+                    <select asp-for="productInsertModel.CountryID" asp-items="@Model.CountryList" class="form-select">
+                        <option disabled selected>--選擇商品國家--</option> @*//取得所有分類填入下拉選單*@
+                    </select>
+                    <span asp-validation-for="productInsertModel.CountryID" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="productInsertModel.ProcessID">處理法</label>
+                    <select asp-for="productInsertModel.ProcessID" asp-items="@Model.ProcessNameList" class="form-select">
+                        <option disabled selected>--選擇商品處理法--</option> @*//取得所有分類填入下拉選單*@
+                    </select>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="productInsertModel.RoastingID">烘培度</label>
+                    <select asp-for="productInsertModel.RoastingID" asp-items="@Model.RoastingList" class="form-select">
+                        <option disabled selected>--選擇商品烘培度--</option> @*//取得所有分類填入下拉選單*@
+                    </select>
+                </div>
+                <div class="row pl-2 mt-4">
+                    <h5 class="text-muted">商品狀態:</h5>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="statusOn" value="1" @(Model.productInsertModel.TakeDown == false ? "checked" : "") />
+                        <label class="form-check-label" for="statusOn">上架</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="statusOff" value="0" @(Model.productInsertModel.TakeDown == true ? "checked" : "") />
+                        <label class="form-check-label" for="statusOff">下架</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <img src="productInsertModel.MainPhotoPath" width="100%" />
+        </div>
+    </div>
+</form>
+<br />
+<br />
+<br />
+<br />
